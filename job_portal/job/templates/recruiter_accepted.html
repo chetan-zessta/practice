@@ -1,0 +1,48 @@
+{% extends "admin_navigation.html" %}
+
+
+{% block content %}
+
+<div class="container card my-5">
+
+    <table class="table table-hover container" >
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Full Name</th>
+                <th>Email ID</th>
+                <th>Contact</th>
+                <th>Gender</th>
+                <th>Company</th>
+                {% comment %} <th>Image</th> {% endcomment %}
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <th> {{ forloop.counter }} </th>
+                <td> {{ i.user.first_name }} {{i.user.last_name}} </td>
+                <td> {{i.user.username}} </td>
+                <td>{{i.mobile}} </td>
+                <td>{{i.gender}} </td>
+                <td>{{i.company}} </td>
+                {% comment %} <td> <img src="{{i.image.url}}" style="height: 100px; width: 100px; border-radius: 30%;">  </td> {% endcomment %}
+                <td>{{i.status}} </td>
+                <td><a href="{% url "delete_recruiter" i.user.id %}">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="return confirm('Are You Sure?')" >Delete</button></a>
+                    <a href="{% url "change_status" i.id %}">
+                    <button type="button" class="btn btn-sm btn-success" >change_status</button></a>
+                </td>
+
+                
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock  %}
+

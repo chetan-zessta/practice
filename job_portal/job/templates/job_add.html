@@ -1,0 +1,126 @@
+{% extends "recruiter_navigation.html" %}
+
+
+{% block content %}
+
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="px-5">
+    <div class="p-3" style="overflow: auto;">
+        <h2 class="text-center">Add Job</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="job_title" class="form-label ">Job Title:</label>
+                    <input type="text" class="form-control" id="job_title" name="job_title" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="start_date" class="form-label ">Start Date:</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="end_date" class="form-label ">End Date:</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="salary" class="form-label ">Salary(in CTC):</label>
+                    <input type="text" class="form-control" id="salary" name="salary" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="logo" class="form-label">Company Logo:</label>
+                    <input type="file" class="form-control" id="logo" name="logo">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="experience" class="form-label ">Experience (In years):</label>
+                    <input type="text" class="form-control" id="experience" name="experience" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="location" class="form-label ">Location:</label>
+                    <input type="text" class="form-control" id="location" name="location" required>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="skills" class="form-label">Skills:</label>
+                    <textarea cols="30" rows="2" class="form-control" id="skills" name="skills" required></textarea>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="job_type" class="form-label">Job Type:</label>
+                    <input type="text" class="form-control" id="job_type" name="job_type">
+                </div>
+                <div class="col-md-6">
+                    <label for="mode_of_work" class="form-label">Mode of Work:</label>
+                    <input type="text" class="form-control" id="mode_of_work" name="mode_of_work">
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="eligibility_criteria" class="form-label">Eligibility Criteria:</label>
+                    <textarea cols="30" rows="4" class="form-control" id="eligibility_criteria" name="eligibility_criteria"></textarea>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="process" class="form-label">Process:</label>
+                    <textarea  class="form-control" id="process" name="process" cols="30" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="role_responsibilities" class="form-label">Role Responsibilities:</label>
+                    <textarea class="form-control" id="role_responsibilities" name="role_responsibilities" cols="30" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea name="description" id="description" class="form-control" cols="30" rows="7"></textarea>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+        
+    </div>
+</div>
+
+</script>
+{% if error == "no" %}
+    <script>
+        alert("Job details added Successful");
+        window.location.href = '{% url "job_list" %}';
+    </script>
+{% elif error == "yes" %}
+    <script>
+        alert("Something went wrong, please try again...");
+    </script> 
+{% endif %}
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock  %}

@@ -1,0 +1,64 @@
+{% extends "recruiter_navigation.html" %}
+
+/* Custom CSS for hover effect */
+
+{% block content %}
+
+<style>
+    .text-decoration-none :hover {
+        text-decoration: none;
+        color: #0f1012; /* Change the color as desired */
+    }
+    
+    </style>
+    
+
+<section class="vh-100" >
+    <div class="container  h-100">
+        <div class="row  mt-5 h-100">
+            <div class="col col-xl-12">
+                <div class=" mb-5" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <h2 class="mb-3">Job List</h2>
+                        <div class="container">
+                            <div class="row">
+                                {% for job_item in job %}
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body" >
+                                            
+                                            <a href="{% url 'job_view' job_item.id %}" class="text-decoration-none">
+                                                <h5 class="card-title mb-0">{{ job_item.title }}</h5>
+                                            </a>
+                                            
+                                            
+                                            <p class="card-text">Creation Date: {{ job_item.creation_date }}</p>
+                                            <!-- <a href="{% url 'job_view' job_item.id %}" class="btn btn-sm btn-success">View</a>
+                                            <a href="{% url 'job_edit' job_item.id %}" class="btn btn-sm btn-info">Edit</a> -->
+                                            <form action="{% url 'delete_job' job_item.id %}" method="post" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this job?')">Delete</button>
+                                            </form>
+                                            <a href="{% url 'applied_candidates_job' job_item.id %}" class="btn btn-sm btn-primary">View Applied Candidates</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function confirmDelete(jobId) {
+        if (confirm('Are you sure you want to delete this job?')) {
+            // Implement your delete logic here, e.g., redirect to a delete view
+            window.location.href = '/delete-job/' + jobId;
+        }
+    }
+</script>
+{% endblock %}

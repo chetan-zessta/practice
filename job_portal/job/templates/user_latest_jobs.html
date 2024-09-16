@@ -1,0 +1,70 @@
+{% extends "user_navigation.html" %}
+
+
+{% block content %}
+<style>
+    tr{
+        text-align: center ;
+    }
+</style>
+
+<br>
+{% comment %} Job list page {% endcomment %}
+
+<div class="container card mt-5">
+
+ <table class="table table-hover container">
+        <thead>
+            <tr>
+                {% comment %} <th>S.No</th> {% endcomment %}
+                <th>Job Title</th>
+                <th>Company Name</th>
+                <th>Location</th>
+                <th>Creation Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in jobs %}
+            <tr>
+                {% comment %} <th> {{ forloop.counter }} </th> {% endcomment %}
+                <td> {{ i.title }}</td>
+                <td> {{ i.recruiter.company }}</td>
+                <td> {{ i.location }} </td>           
+                <td> {{ i.creation_date }} </td>           
+                <td> {{ i.start_date }} </td>           
+                <td> {{ i.end_date }} </td>  
+
+                {% if i.id in li %}
+                
+                <td> 
+                    <a href="{% url "job_view" i.id %}" class="btn btn-sm btn-secondary">View Application</a>    
+                    {% comment %} Applied  {% endcomment %}
+                </td>
+                {% elif i.end_date < Todate  %}
+                <td>
+                    <a class="btn btn-sm btn-danger disabled">Closed</a>    
+                </td>  
+                {% else %}
+                <td>
+                    <a href="{% url "job_view" i.id %}" class="btn btn-sm btn-primary">Apply</a>    
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock  %}

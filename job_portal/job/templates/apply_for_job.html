@@ -1,0 +1,35 @@
+{% extends "user_navigation.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Apply for Job: {{ job.title }}</h2>
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% if student.resume %}
+                        <div class="d-inline">
+                            <label for="current_resume" class="mr-2">Current Resume:</label>
+                            <a href="{{ student.resume.url }}" id="current_resume" target="_blank">Download Resume</a>
+                        </div>
+                    {% else %}
+                        <p>No resume uploaded.</p>
+                    {% endif %}
+
+                    
+                    <small class="form-text text-muted">If you want to update your resume, you can upload a new one below.</small>
+                </div>
+                <div class="form-group">
+                    <label for="new_resume">Upload New Resume</label>
+                    <input type="file" class="form-control-file" id="new_resume" name="new_resume" >
+                </div>
+                <a href= "{%  url 'job_detail' job.id %}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

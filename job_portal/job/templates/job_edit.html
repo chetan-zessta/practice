@@ -1,0 +1,138 @@
+{% extends "recruiter_navigation.html" %}
+
+
+{% block content %}
+<style>
+    tr{
+        text-align: center ;
+    }
+    label {
+        font-weight: bold;
+    }
+</style>
+
+<br>
+
+
+
+
+<div class="px-5">
+    <div class="p-3" style="overflow: auto;">
+        <h2 class="text-center">Add Job</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="job_title" class="form-label ">Job Title:</label>
+                    <input type="text" class="form-control" id="job_title" name="job_title" value="{{job.title}}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="start_date" class="form-label ">Start Date: </label> [{{job.start_date}}]
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ job.start_date }}" >
+                </div>
+                <div class="col-md-6">
+                    <label for="end_date" class="form-label ">End Date: </label> [{{job.end_date}}]
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{job.end_date}}" >
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="salary" class="form-label ">Salary(in CTC):</label>
+                    <input type="text" class="form-control" id="salary" name="salary" value="{{job.salary}}" required>
+                </div>
+                {% if job.image %}
+                <div class="col-md-6">
+                    <label for="logo" class="form-label">Company Logo:</label>
+                    <img src="{{job.image.url}}" width="100px" height="100px" alt="logo">
+                    <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                </div>
+                {% endif %}
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="skills" class="form-label">Skills:</label>
+                    <input type="text" class="form-control" id="skills" name="skills" value="{{job.skills}}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="experience" class="form-label ">Experience (In years):</label>
+                    <input type="text" class="form-control" id="experience" name="experience" value="{{job.experience}}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="location" class="form-label ">Location:</label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{job.location}}" required>
+                </div>
+            </div>
+
+           
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="job_type" class="form-label">Job Type:</label>
+                    <input type="text" class="form-control" id="job_type" name="job_type" value="{{ job.job_type }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="mode_of_work" class="form-label">Mode of Work:</label>
+                    <input type="text" class="form-control" id="mode_of_work" name="mode_of_work" value="{{ job.mode_of_work }}">
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="eligibility_criteria" class="form-label">Eligibility Criteria:</label>
+                    <input type="text" class="form-control" id="eligibility_criteria" name="eligibility_criteria" value="{{ job.eligibility_criteria }}">
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="process" class="form-label">Process:</label>
+                    <input type="text" class="form-control" id="process" name="process" value="{{ job.process }}">
+                </div>
+            </div>
+            
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="role_responsibilities" class="form-label">Role Responsibilities:</label>
+                    <input type="text" class="form-control" id="role_responsibilities" name="role_responsibilities" value="{{ job.role_responsibilities }}">
+                </div>
+            </div>
+            
+            
+            
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="description" class="form-label">Job Description:</label>
+                    <textarea name="description" id="description" class="form-control" cols="30" rows="5"  >{{job.description}}</textarea>
+                </div>
+            </div>
+
+            <a href="{% url 'job_view' job.id %}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+        
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+</script>
+{% if error == "no" %}
+    <script>
+        alert("Job details Updated Successful");
+        window.location.href = '{% url "job_edit" job.id %}';
+    </script>
+{% elif error == "yes" %}
+    <script>
+        alert("Something went wrong, please try again...");
+    </script> 
+{% endif %}
+
+{% endblock  %}

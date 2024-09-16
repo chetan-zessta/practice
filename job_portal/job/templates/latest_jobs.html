@@ -1,0 +1,74 @@
+{% extends "navigation.html" %}
+
+
+{% block content %}
+<style>
+   
+.custom-tooltip {
+  --bs-tooltip-bg: rgba(255, 0, 0, 0.892);
+  --bs-tooltip-color: white;
+}
+.custom-tooltip-2 {
+  --bs-tooltip-bg: rgba(0, 128, 0, 0.759);
+  --bs-tooltip-color: white;
+}
+</style>
+
+
+ <section  style="background-color: #d3d2e7;">
+    <div class="container py-5 px-4 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-12">
+
+            {% for job in jobs  %}
+
+            <a href="{% url 'job_view' job.id %}" class="text-decoration-none">
+                <div class="card mb-3 vh-10" style="border-radius: 15px;">
+                  <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h3 class="mb-3">{{ job.title }}</h3>
+                        <p class="small mb-0">Posted by <strong>{{ job.recruiter.company }}</strong> on {{ job.creation_date }}</p>
+                      </div>
+                      {% if job.recruiter.image %}
+                      <div class="me-3">
+                        <img src="{{ job.recruiter.image.url }}" alt="" class="rounded-circle" style="width: 70px; height: 70px;">
+                      </div>
+                      {% endif %}
+                    </div>
+                    <hr class="my-4">
+                    <div class="d-flex justify-content-evenly align-items-center">
+                      <p class="mb-0 me-2"><b>Experience:</b> <span class="text-muted small">{{ job.experience }} years</span>
+                        <!-- <span class="ms-3 me-2">|</span> -->
+                      </p>
+                      <div class="vr"></div>
+                      <p class="mb-0 me-1"><b>Skills:</b> <span class="text-muted small me-2">{{ job.skills | truncatewords:5 }}</span></p>
+                      <p class="mb-0"><b class="me-2">Start Date:</b> <span class="text-muted small">{{ job.start_date }}</span>
+                        <!-- <span class="ms-3 me-2">|</span> -->
+                      </p>
+
+                      <div class="vr"></div>
+
+                      <p class="mb-0"><b class="me-1">End Date:</b> <span class="text-muted small me-2">{{ job.end_date }}</span></p>
+                      
+                      {% if job.end_date < today_date  %}
+                      <p class="mb-0 btn btn-outline-dark btn-sm ms-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Closed" >Read more</p>
+                      {% else %}
+                      <p class="mb-0 btn btn-outline-dark btn-sm ms-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip-2"  data-bs-title="Open" >Read more</p>
+                      {% endif %}
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+              
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section> 
+
+
+
+
+{% endblock  %}

@@ -1,0 +1,41 @@
+{% extends "admin_navigation.html" %}
+
+
+{% block content %}
+
+<div class="login-container mt-5 card p-3">
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username"><strong>Recruiter Name:</strong></label>
+
+
+            <input type="text" id="username" name="username" value="{{recruiter.user.first_name}} {{recruiter.user.last_name}}">
+        </div>
+        <div class="form-group">
+          <label for="status" class="form-label"><strong>Status</strong></label>
+            <select id="status" name="status" class="form-select" required>
+                <option value="reject">Reject</option>
+                <option value="accept">Accept</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit">Change Status</button>
+        </div>
+    </form>
+</div>
+
+
+{% if error == "no" %}
+    <script>
+        alert("Status Changed Successfully");
+        window.location.href = '{% url "recruiter_all" %}';
+    </script>
+{% elif error == "yes" %}
+    <script>
+        alert("Something went wrong, please try again...");
+    </script>  
+{% endif %}
+
+
+{% endblock  %}

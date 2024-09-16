@@ -1,0 +1,41 @@
+{% if user_type == 'user' %}
+    {% include "user_navigation.html" %}
+
+ {% elif user_type == 'recruiter' %}
+    {% include "recruiter_navigation.html" %} 
+
+{% elif user_type == 'admin' %}
+    {% include "admin_navigation.html" %} 
+
+{% else %}
+    {% include "navigation.html" %}
+
+{% endif %}
+
+{% block content %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for job in jobs %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Experience Required:</strong> {{ job.experience }} Years</p>
+                        <p class="card-text"><strong>Skills Required:</strong> {{ job.skills|truncatewords:10 }}</p>
+                        <p class="card-text"><strong>Start Date:</strong> {{ job.start_date }}</p>
+                        <p class="card-text"><strong>End Date:</strong> {{ job.end_date }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'job_view' job.id %}" class="btn btn-primary btn-sm">Read more</a>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                </div><div class="row row-cols-1 row-cols-md-3 g-4">
+            {% endif %}
+        {% empty %}
+            <p>No jobs found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

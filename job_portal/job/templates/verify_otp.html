@@ -1,0 +1,19 @@
+<!-- verify_otp.html -->
+{% extends 'user_navigation.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Verify Email</h2>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="otp" class="form-label">Enter OTP</label>
+            <input type="text" class="form-control" id="otp" name="otp" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verify OTP</button>
+    </form>
+</div>
+{% endblock %}

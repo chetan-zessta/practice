@@ -1,0 +1,203 @@
+{% if user_type == 'user' %}
+    {% include "user_navigation.html" %}
+
+ {% elif user_type == 'recruiter' %}
+    {% include "recruiter_navigation.html" %} 
+
+{% elif user_type == 'admin' %}
+    {% include "admin_navigation.html" %} 
+
+{% else %}
+    {% include "navigation.html" %}
+
+{% endif %}
+
+{% comment %} {% extends "navigation.html" %} {% endcomment %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="container mt-3">
+
+<!-- {{user_type}}  -->
+
+   <!-- Search option for jobs start  -->
+  {% comment %} <section>
+      <div class="p-4 mb-3 bg-light rounded-3">
+        <div class="container-fluid py-1">
+          <h2 class="display-5 fw-bold text-center">Find Your Dream Job Now</h2>
+          <br>
+    
+          <div class="card">
+            <div class="card-body">
+              <form class="row gy-2 gx-3 align-items-center">
+                <div class="col-sm-2">
+                  <label class="visually-hidden" for="autoSizingInput">Name</label>
+                  <input type="text" class="form-control" id="autoSizingInput" placeholder="Job Keyword">
+                </div>
+                <div class="col-sm-3">
+                  <label class="visually-hidden" for="autoSizingSelect">Select Location</label>
+                  <select class="form-select" id="autoSizingSelect">
+                    <option selected>Select Location</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <label class="visually-hidden" for="autoSizingSelect">Choose Job Type</label>
+                  <select class="form-select" id="autoSizingSelect">
+                    <option selected>Choose Job Type</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <label class="visually-hidden" for="autoSizingSelect">Select Industry</label>
+                  <select class="form-select" id="autoSizingSelect">
+                    <option selected>Select Industry</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="col-auto">
+                  <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+    
+          <p class="col-md-8 fs-6 mt-3">
+            Welcome to  Job Portal! Search and get your dream job. We have thousands of job offerings for you. Don't forget to leave a like when you get a job. Good luck with you job hunt!
+          </p>
+          <button class="btn btn-outline-primary" type="button"> More Jobs</button>
+        </div>
+      </div>
+    </section> {% endcomment %}
+   <!-- Search option for jobs end  -->
+
+
+
+  {% comment %} <section>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-2">
+            <h2 class="display-5 fw-bold text-center">Find Your Dream Job Now</h2>
+            <br>
+
+            <div class="card">
+                <div class="card-body">
+                    <form class="row gy-2 gx-3 align-items-center" method="GET" action="{% url 'job_search' %}">
+                        <div class="col-sm-2">
+                            <label class="visually-hidden" for="job_title">Job Keyword</label>
+                            <input type="text" class="form-control" id="job_title" name="title" placeholder="Job Keyword">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="visually-hidden" for="location">Select Location</label>
+                            <select class="form-select" id="location" name="location">
+                                <option selected>Select Location</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Bhubaneswar">Bhubaneswar	</option>
+                                <option value="Chennai">Chennai</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="visually-hidden" for="experience">Select Experience</label>
+                            <select class="form-select" id="experience" name="experience">
+                                <option selected>Select Experience</option>
+                                <option value="2-5">2-5</option>
+                                <option value="1">1</option>
+                                <option value="0-3">0-3</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <p class="col-md-8 fs-6 mt-3">
+                Welcome to Job Portal! Search and get your dream job. We have thousands of job offerings for you. Don't forget to leave a like when you get a job. Good luck with you job hunt!
+            </p>
+            <button class="btn btn-outline-primary" type="button"> More Jobs</button>
+        </div>
+    </div>
+</section> {% endcomment %}
+
+<!-- job_search.html -->
+<section>
+  <div class="p-5 mb-4 bg-light rounded-3" style="background-color: #d9e3ed;">
+      <div class="container-fluid py-2">
+          <h2 class="display-5 fw-bold text-center">Find Your Dream Job Now</h2>
+          <br>
+  
+          <div class="card">
+              <div class="card-body">
+                  <form method="post" action="{% url 'job_search' %}" class="row gy-2 gx-3 align-items-center px-2">
+                      {% csrf_token %}
+                      <div class="col-sm-3">
+                          <label class="visually-hidden" for="keyword">Job Keyword</label>
+                          <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Job Keyword">
+                      </div>
+                      <div class="col-sm-3">
+                          <label class="visually-hidden" for="location">Location</label>
+                          <input type="text" class="form-control" id="location" name="location" placeholder="Location">
+                      </div>
+                      <div class="col-sm-3">
+                          <label class="visually-hidden" for="experience">Experience Range</label>
+                          <input type="text" class="form-control" id="experience" name="experience" placeholder="Experience Range ex: 2-5">
+                      </div>
+                      <div class="col-sm-3 px-3">
+                          <button type="submit" class="btn btn-primary w-100">Search</button>
+                      </div>
+                  </form>
+              </div>
+              
+          </div>
+          <p class="col fs-6 mt-3 p-3">
+            Welcome to  Job Portal! Search and get your dream job. We have thousands of job offerings for you. Don't forget to leave a like when you get a job. Good luck with you job hunt!
+          </p>
+      </div>
+  </div>
+</section>
+
+
+  <!-- displaying latest 6 jobs in card view start  -->
+  
+
+  <div class="row row-cols-1 row-cols-md-3 g-4"> 
+      {% for job in jobs %}
+        <div class="col">
+            <div class="card h-100 text-bg-light mb-3">
+                <div class="card-header">
+                  <div>
+                    <b class="card-title">{{ job.title }}</b>
+                  </div>
+                    <small class="mx-3"> by {{ job.recruiter.company}} </small>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Experience Required:</strong> {{ job.experience }} Years</p>
+                    <p class="card-text"><strong>Skills Required:</strong> {{ job.skills|truncatewords:10 }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+                    <p class="card-text"><strong>Start Date:</strong> {{ job.start_date }} |  <strong>End Date:</strong> {{ job.end_date }}</p>
+                    <!-- <p class="card-text"><strong>End Date:</strong> {{ job.end_date }}</p> -->
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'job_view' job.id %}" class="btn btn-primary btn-sm">Read more</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}       
+  </div>
+  <!-- displaying latest 6 jobs in card view end  -->
+  
+</div>
+
+{% endblock content %}
+
+

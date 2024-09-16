@@ -1,0 +1,96 @@
+{% extends "navigation.html" %}
+
+{% block content %}
+
+
+
+<div class="container my-1">
+    <div class="p-5 me-5" style="overflow: auto;">
+        <h2 class="text-center">Register Recruiter</h2>
+        <form method="post" name="signup" onsubmit="return checkPasswordMatch()" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="fname" class="form-label">First Name:</label>
+                    <input type="text" class="form-control" id="fname" name="fname" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="lname" class="form-label">Last Name:</label>
+                    <input type="text" class="form-control" id="lname" name="lname" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="contact" class="form-label">Contact:</label>
+                    <input type="text" class="form-control" id="contact" name="contact" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="company" class="form-label">Company:</label>
+                    <input type="text" class="form-control" id="company" name="company" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="pwd" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="pwd" name="pwd" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="cpwd" class="form-label">Confirm Password:</label>
+                    <input type="password" class="form-control" id="cpwd" name="cpwd" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Gender:</label>
+                    <select class="form-select" name="gender" required>
+                        <option value="" selected>Select Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" class="form-control" id="image" name="image">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+        <div class="text-center mt-3">
+            <a href="{% url 'login_view' %}">Already have an account? Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function checkpass()
+    {
+        if (document.signup.pwd.value!= document.signup.cpwd.value) {
+            alert('Password and Confirm Password filed does not match');
+            document.signup.cpwd.focus();
+            return false;
+        }
+        return true;
+    }
+
+</script>
+{% comment %} {% if error == "no" %}
+    <script>
+        alert("Sign Up Successful");
+        window.location.href = '{% url "login_view" %}';
+    </script>
+{% elif error == "yes" %}
+    <script>
+        alert("Something went wrong, please try again HERE ");
+    </script> 
+{% endif %} {% endcomment %}
+
+{% endblock%}

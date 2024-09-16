@@ -1,0 +1,225 @@
+{% if user_type == 'user' %}
+    {% include "user_navigation.html" %}
+
+ {% elif user_type == 'recruiter' %}
+    {% include "recruiter_navigation.html" %} 
+
+{% elif user_type == 'admin' %}
+    {% include "admin_navigation.html" %} 
+
+{% else %}
+    {% include "navigation.html" %}
+
+{% endif %}
+{% block content %}
+
+<style>
+    .job-card {
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .job-card-header {
+        background-color: #007bff6c;
+        color: #fff;
+        padding: 10px 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .job-title {
+        font-size: 40px;
+        margin-bottom: 0;
+        text-align: center;
+        padding: 20px 5px;
+    }
+
+    .company-name {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .job-info {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .job-details {
+        padding: 20px;
+    }
+
+    .job-details hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #ccc;
+    }
+
+    .apply-button {
+        margin-top: 20px;
+    }
+
+    .job-logo {
+        margin: 10px 10px;
+        width: 80px; /* Adjust the size of the logo as needed */
+
+        height: 80px;
+        border-radius: 50% ;
+    }
+</style>
+
+
+{% comment %} <div class="container">
+    {{user_type}}
+   
+        <div class="card my-3">
+            <div class="card-header">
+                <h3 class="card-title mb-2">{{ job.title }}</h3>
+                <div>
+                    <i class="fas fa-map-marker-alt me-1"></i> {{ job.location }}
+                </div>
+                <div>
+                    <i class="fas fa-briefcase me-1"></i> {{ job.experience }} years of experience
+                </div>
+                
+                
+            </div>
+            <div class="card-body">
+                <p class="card-text"><strong>About Company:</strong> {{ job.recruiter.about_company |linebreaks|safe }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+                <p class="card-text"><strong>Salary:</strong> {{ job.salary }}</p>
+                <p class="card-text"><strong>Eligibility criteria:</strong> {{ job.eligibility_criteria |linebreaks|safe }}</p>
+                <p class="card-text"><strong>Experience:</strong> {{ job.experience }}</p>
+                <p class="card-text"><strong>Skills:</strong> {{ job.skills |linebreaks|safe }}</p>
+                <p class="card-text"><strong>Job Type:</strong> {{ job.job_type }}</p>
+                <p class="card-text"><strong>Job Description:</strong></p>
+                <p class="card-text">{{ job.description |linebreaks|safe }}</p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p class="card-text"><strong>Start Date:</strong> {{ job.start_date }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="card-text"><strong>End Date:</strong> {{ job.end_date }}</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            {% if user.is_authenticated %}
+        {% if user_type == 'recruiter' %}
+            <div class="card-footer">
+                <a href="{% url 'job_list' %}" class="btn btn-secondary">Back</a>
+                <a href="{% url 'job_edit' job.id %}" class="btn btn-primary">Edit</a>
+            </div>
+        {% elif user_type == 'admin' %}
+            <div class="card-footer">
+                <!-- Admin can only view, no edit functionality -->
+                <a href="{% url 'index' %}" class="btn btn-info">Back</a>
+
+            </div>
+        {% else %}
+            <!-- Regular user (not recruiter or admin) -->
+            <div class="card-footer">
+                <a href="{% url 'index' %}" class="btn btn-info">Back</a>
+                {% if job.id in li %} 
+                    <button class="btn btn-success" disabled>Already Applied</button>
+                {% else %}
+                    <a href="{% url 'apply_for_job' job.id %}" class="btn btn-primary">Apply</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <!-- User not logged in -->
+        <div class="card-footer">
+            <a href="{% url 'latest_jobs' %}" class="btn btn-secondary">Back</a>
+            <a href="{% url 'login_view' %}" class="btn btn-info">Login to Apply</a>
+        </div>
+    {% endif %}
+
+
+    </div>
+</div> {% endcomment %}
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card job-card">
+                <div class="card-header job-card-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="p-3 mt-2">
+                            <b class="job-title">{{ job.title }}</b>
+                        </div>
+                        <div class="">
+                            {% if job.image %}
+                            <img src="{{ job.image.url }}" alt="Logo" class="job-logo">
+                            {% else %}
+                            <img src="https://i.pinimg.com/originals/c0/4b/01/c04b017b6b9d1c189e15e6559aeb3ca8.png" alt="Logo" class="job-logo">
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body job-details">
+                    <h4 class="company-name">{{ job.recruiter.company }}</h4>
+                    <p class="job-info"><i class="fas fa-map-marker-alt me-1"></i> {{ job.location }}</p>
+                    <p class="job-info"><i class="far fa-calendar me-1"></i> {{ job.start_date }} - {{ job.end_date }}</p>
+                    <p class="job-info"><i class="fas fa-rupee-sign me-1"></i>CTC: <strong>{{ job.salary }}</strong></p>
+                    <hr>
+                    <p><b>About Company</b></p>
+                    <p>{{ job.recruiter.about_company | linebreaks | safe }}</p>
+                    <hr>
+                    <p><b>Job Description</b></p>
+                    <p>{{ job.description | linebreaks | safe}}</p>
+                    <hr>
+                    <p><b>Experience Required</b></p>
+                    <p>{{ job.experience }} Years</p>
+                    <hr>
+                    <p><b>Skills Required</b></p>
+                    <p>{{ job.skills | linebreaks | safe }}</p>
+                    <hr>
+                    <p><strong>Eligibility Criteria:</strong> {{ job.eligibility_criteria |linebreaks |safe}}</p>
+                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+                    <hr>
+                    <p><strong>Role Responsibilities:</strong> {{ job.role_responsibilities | linebreaks | safe }}</p>
+                    <p><strong>Process:</strong> {{ job.process | linebreaks | safe }}</p>
+                    <hr>
+                    <p><strong>Last Date for Registration:</strong> {{ job.end_date }}</p>  {# Highlighted modification #}
+
+                    {% if user.is_authenticated %}
+                        {% if user_type == 'recruiter' %}
+                            <div class="card-footer">
+                                <a href="{% url 'job_list' %}" class="btn btn-secondary">Back</a>
+                                <a href="{% url 'job_edit' job.id %}" class="btn btn-primary">Edit</a>
+                            </div>
+                        {% elif user_type == 'admin' %}
+                            <div class="card-footer">
+                                <!-- Admin can only view, no edit functionality -->
+                                <a href="{% url 'index' %}" class="btn btn-info">Back</a>
+                            </div>
+                        {% else %}
+                            <!-- Regular user (not recruiter or admin) -->
+                            <div class="card-footer">
+                                <a href="{% url 'index' %}" class="btn btn-info">Back</a>
+                                {% if job.id in li %} 
+                                    <button class="btn btn-success" disabled>Already Applied</button>
+                                {% else %}
+                                    <a href="{% url 'apply_for_job' job.id %}" class="btn btn-primary">Apply</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <!-- User not logged in -->
+                        <div class="card-footer">
+                            <a href="{% url 'latest_jobs' %}" class="btn btn-secondary">Back</a>
+                            <a href="{% url 'login_view' %}" class="btn btn-info">Login to Apply</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

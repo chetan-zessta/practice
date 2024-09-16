@@ -1,0 +1,101 @@
+{% extends "user_navigation.html" %}
+
+{% block content %}
+
+<style>
+    .job-card {
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .job-card-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .job-title {
+        font-size: 40px;
+        margin-bottom: 0;
+        text-align: center;
+        padding: 20px 5px;
+    }
+
+    .company-name {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .job-info {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .job-details {
+        padding: 20px;
+    }
+
+    .job-details hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #ccc;
+    }
+
+    .apply-button {
+        margin-top: 20px;
+    }
+    .job-logo {
+        margin: 10px 10px;
+        width: 100px; /* Adjust the size of the logo as needed */
+        height: auto;
+        /* border-radius: 50%; */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card job-card">
+                <div class="card-header job-card-header">
+                    <div class="row">
+
+                    <div class="col-sm-1">
+                        <img src="{{ job.image.url }}" alt="Logo" class="job-logo">
+                    </div>
+                    <div class="col-sm-8">
+                        <h2 class="job-title">{{ job.title }}</h2>
+                    </div>
+                </div>
+
+                </div>
+                <div class="card-body job-details">
+                    <h4 class="company-name">{{ job.recruiter.company }}</h4>
+                    <p class="job-info"><i class="fas fa-map-marker-alt"></i> {{ job.location }}</p>
+                    <p class="job-info"><i class="far fa-calendar"></i> {{ job.creation_date }}</p>
+                    <p class="job-info">CTC: <strong>{{ job.salary }}</strong></p>
+                    <hr>
+                    
+                    <p><b>Description</b></p>
+                    <p>{{ job.description }}</p>
+                    <hr>
+                    <p><b>Experience Required</b></p>
+                    <p>{{ job.experience }} Years</p>
+                    <hr>
+                    <p><b>Skills Required</b></p>
+                    <p>{{ job.skills }}</p>
+                    <hr>
+                    <p><strong>Start Date for Applying:</strong> {{ job.start_date }}</p>
+                    <p><strong>End Date for Applying:</strong> {{ job.end_date }}</p>
+                    <a href= "{%  url 'user_latest_jobs' %} " class="btn btn-secondary apply-button">Back</a>
+                    <a href= "{%  url 'apply_for_job' job.id %} " class="btn btn-primary apply-button">Apply for this job</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
